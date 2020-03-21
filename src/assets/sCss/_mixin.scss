@@ -1,0 +1,83 @@
+@mixin padding-box($V-val, $O-val) {
+    padding: $V-val $O-val;
+}
+
+//richiamare con @include padding-box(valore, valore);
+
+
+@mixin border-radius($radius) {
+    border-radius: $radius;
+}
+
+//richiamare con @include border-radius(valore del radius);
+
+@mixin center28($horizontal: true, $vertical: true) {
+    position: absolute;
+
+    @if ($horizontal and $vertical) {
+        top: 50%;
+        left: 50%;
+        -webkit-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+    }
+
+    @else if ($horizontal) {
+        left: 50%;
+        -webkit-transform: translate(-50%, 0);
+        transform: translate(-50%, 0);
+    }
+
+    @else if ($vertical) {
+        top: 50%;
+        -webkit-transform: translate(0, -50%);
+        transform: translate(0, -50%);
+    }
+}
+
+//richiamare con @include center28(true,true) Centra nelle due direzioni, or @include center28(false,true) solo verticale, or @include center28(true,false) solo orizzontale;
+
+@mixin absCenter {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+// Slightly darken a color // più è bassa la percentuale più si ottiene l'effetto darken
+@function shade($color, $percentage) {
+    //$color - color to shade + valore % desiderato
+    @return mix(black, $color, $percentage);
+}
+
+//si attiva con .selettoreCSS { color: shade(#BADA55, 70%);}
+
+// Slightly lighten a color // più è bassa la percentuale più si ottiene l'effetto lighten
+@function tint($color, $percentage) {
+    //$color - color to shade + valore % desiderato
+    @return mix(white, $color, $percentage);
+}
+
+
+//si attiva con .selettoreCSS { color: tint(#BADA55, 70%);}
+
+// @mixin color-sat() {} da rivedere e studiare
+// $color: blue;
+
+// h1 {
+//     color: white;
+//     background-color: $color;
+
+//     &:nth-of-type(2) {
+//         background-color: scale-color($color, $saturation: -75%);
+//     }
+
+//     &:nth-of-type(3) {
+//         background-color: scale-color($color, $saturation: -95%);
+//     }
+
+// }
+
+// .test-color {
+//     color: adjust-hue(#7fffd4, 80%);
+// }

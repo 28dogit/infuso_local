@@ -1,0 +1,258 @@
+body.woocommerce-cart,
+body.woocommerce-checkout {
+    #primary {
+        width: 100%;
+    }
+
+    #secondary {
+        display: none;
+    }
+}
+
+.storefront-breadcrumb {
+    background-color: #f7f7f7;
+    margin-bottom: 0px;
+    display: none;
+}
+
+
+#masthead #site-navigation .main-navigation {
+    text-align: center;
+}
+
+.primary-navigation li a {
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.site-header {
+    padding: 10px;
+    margin-bottom: 10px !important;
+}
+
+.site-header .site-branding img {
+    max-width: 330px;
+}
+
+@media all and (max-width: 479px) {
+
+    //nascondo su mobile la desc. dei box in alto per ottimizzare gli spazi
+    .et_pb_blurb_description {
+        display: none;
+    }
+}
+
+#vue-infusi-app #tisane-vue-code.vue-code {
+
+    #vue-tisane {
+        display: grid;
+        grid-template-columns: 180px 1fr;
+        gap: 20px;
+    }
+
+    #vue-filter {
+        display: grid;
+        //grid-template-columns: repeat(6, 1fr);
+        grid-template-columns: 1fr;
+        grid-auto-rows: -webkit-max-content;
+        grid-auto-rows: max-content;
+        gap: 10px;
+        padding-bottom: 30px;
+        //border-bottom: 1px solid rgba(0, 0, 0, 0.05); spostato in DIVI per visualizzare l'elemento
+        margin-bottom: 30px;
+
+        h2 {
+            border-bottom: 1px solid $green_infuso_light;
+        }
+    }
+
+    // Responsive Styles Tablet And Below
+    // @media all and (max-width: 1024px) {
+    //     #vue-filter {
+    //         display: grid;
+    //         grid-template-columns: repeat(4, 1fr);
+    //         grid-gap: 5px;
+    //     }
+    // }
+
+    @media all and (max-width: 980px) {
+        #vue-tisane {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        #vue-filter {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 5px;
+        }
+    }
+
+    @media all and (max-width: 479px) {
+        #vue-tisane {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        #vue-filter {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+    }
+
+
+    // .vue_btn::before {
+    //     content: url(https://icongr.am/entypo/plus.svg?size=10&color=91b86b);
+    //     margin-right: 15px;
+    // }
+
+    .vue_btn {
+        //border-radius: 0px;
+        //text-align: center;
+        //line-height: 1.7em;
+        //padding: .8em 1em;
+        font-size: 15px;
+        border-bottom: 1px solid $green_infuso_light;
+        //text-transform: uppercase;
+        letter-spacing: 1px;
+        color: rgba(0, 0, 0, 0.5);
+        //font-family: 'Playfair Display', Georgia, "Times New Roman", serif;
+        font-family: 'Montserrat', Helvetica, Arial, Lucida, sans-serif;
+
+        //background-color: #ffffff;
+        &::before {
+            content: url(https://icongr.am/feather/coffee.svg?size=15&color=000000);
+            vertical-align: text-bottom;
+            margin-right: 5px;
+        }
+
+        &:hover {
+            color: #44580e !important;
+            //background-color: rgba(255, 255, 255, 0.74);
+            //border-bottom: 1px solid $grey_light;
+
+            // &::after {
+            //     content: url(https://icongr.am/feather/arrow-right.svg?size=15&color=000000);
+            //     vertical-align: text-bottom;
+            // }
+        }
+    }
+
+
+    .elencoProd {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-gap: 10px;
+    }
+
+    .post {
+        box-shadow: 0px 12px 18px -6px rgba(0, 0, 0, 0.13);
+        background-color: #ffffff;
+        font-family: 'Montserrat', Helvetica, Arial, Lucida, sans-serif;
+
+        .post-name {
+            @include padding-box(20px, 15px);
+            font-family: 'Playfair Display', Georgia, "Times New Roman", serif;
+            //min-height: 80px;
+            //background-color: #f7f7f7;
+            border-bottom: 1px solid #f7f7f7;
+            font-size: 22px;
+            line-height: 25px;
+            //text-transform: uppercase;
+            text-align: center;
+            color: #333;
+            //background-image: url(https://infusodivino.it/shop/wp-content/uploads/2020/02/groovepaper.png);
+            background-image: url(https://infusodivino.it/shop/wp-content/uploads/2020/02/gray_jean.png);
+            background-repeat: repeat;
+        }
+
+
+        .post-info {
+            @include padding-box(10px, 15px);
+            //background-color: #f7f7f7;
+            border-top: 1px solid $grey_light;
+
+            .post-desc {
+                margin-bottom: 10px;
+                min-height: 100px;
+            }
+
+            .prod-price {
+                &-wrap {
+                    background-color: $grey_light;
+                }
+
+                font-size: 18px;
+                padding-left: 5px;
+
+                .amount,
+                .woocommerce-Price-currencySymbol {
+                    font-weight: 500;
+                }
+            }
+        }
+
+        // .post-name::before,
+        // .post-name::after {
+        //     content: '';
+        //     position: absolute;
+        //     top: 0;
+        //     right: 0;
+        //     border-color: transparent;
+        //     border-style: solid;
+        // }
+
+        // .post-name::before {
+        //     border-width: 15px;
+        //     border-right-color: $green_infuso;
+        //     border-top-color: $green_infuso_light;
+        //     z-index: 3;
+        // }
+    }
+
+    @media all and (max-width: 1024px) {
+        .elencoProd {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+    }
+
+    @media all and (max-width: 980px) {
+        .elencoProd {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+    }
+
+    @media all and (max-width: 479px) {
+
+        .elencoProd {
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+            gap: 10px;
+        }
+
+        .post {
+            text-align: center;
+
+            .post-image {
+                max-width: 60%;
+            }
+
+            .post-info {
+                @include padding-box(5px, 5px);
+                //text-align: left;
+
+                .post-desc {
+                    //margin-bottom: 10px;
+                    min-height: auto;
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,49 @@
+//colori
+//gestione colori // esempi
+//darken($green_infuso, 10%);
+//lighten($green_infuso, 10%);
+//saturate($green_infuso, 20%);
+//desaturate($green_infuso, 20%);
+//adjust-hue($green_infuso, 20%);
+//rgba($green_infuso, .7); aggiunge una trasparenza a 0.7
+//tint(...);
+//shade(...);
+//////////////////
+$green_dark_new:#88a446;
+$green_infuso:#93b786;
+$green_infuso_over:#7a9e6d;
+$green_infuso_light:#91b86b;
+$grey:#888888;
+$grey_light:#f7f7f7;
+$brown_infuso:#EEE9DE;
+$brown_infuso_dark:#ded4bd;
+
+body.page-template-template-fullwidth #content .col-full {
+    //elimino margini e padding solo del col-full interno alle pagine con template full-width
+    margin: 0px;
+    padding: 0px;
+    max-width: 100%;
+}
+
+.entry-header,
+.woocommerce-products-header {
+    // nascondo titolo Pagina e titolo shop
+    display: none;
+}
+
+.et-db #et-boc .et-l .et_pb_module a {
+    color: #93b786;
+}
+
+a:focus {
+    outline: 0px;
+}
+
+
+.menu-item:hover {
+    background-color: #93b786;
+
+    a {
+        color: #ffffff !important;
+    }
+}
