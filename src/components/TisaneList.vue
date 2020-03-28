@@ -143,7 +143,9 @@ export default {
 
         for (var item in self.postIDs) {
           xxhr.open("GET", apivarurl + self.postIDs[item] + apivarurl2);
+          var test_V = apivarurl + self.postIDs[item] + apivarurl2;
           //console.log(apivarurl + self.postIDs[item] + apivarurl2);
+          console.log(test_V.id);
           //console.log(self.postIDs[item]);
           xxhr.onload = function() {
             self.postVar2 = JSON.parse(xxhr.responseText);
