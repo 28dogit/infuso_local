@@ -45,19 +45,23 @@
               <div class="prod-price-wrap">
                 <p class="prod-price" v-html="post.price_html"></p>
               </div>
-              <!-- <div class="test">{{post.variations}} - OK</div> -->
-              <div class="varPrice" v-for="vario in postVar" :key="vario.id">
-                <!-- {{post.variations}} - {{vario[0].id}} - {{vario[1].id}} - {{vario[2].id}} -->
-                <div
-                  v-if="post.variations[0]===vario[2].id"
-                >{{vario[2].price}} - per il primo - {{post.variations[0]}} - {{vario[2].id}}</div>
-                <div
-                  v-if="post.variations[1]===vario[1].id"
-                >{{vario[1].price}} - per il secondo - {{post.variations[1]}} - {{vario[1].id}}</div>
-                <div
-                  v-if="post.variations[2]===vario[0].id"
-                >{{vario[0].price}} - per il terzo - {{post.variations[2]}} - {{vario[0].id}}</div>
+              <div class="test">{{post.variations}} - OK</div>
+              <div class="test" v-for="(vario, index) in postVar" :key="index">
+                <div v-if="post.variations[0]===vario.id">{{vario.price}} - per il primo</div>
+                <div v-if="post.variations[1]===vario.id">{{vario.price}} - per il secondo</div>
+                <div v-if="post.variations[2]===vario.id">{{vario.price}} - per il terzo</div>
               </div>
+              <div class="wrapper" v-if="post.variations[0]">prezzo 6,00€ - {{post.variations[0]}}</div>
+              <div class="wrapper" v-if="post.variations[1]">prezzo 12,00€ - {{post.variations[1]}}</div>
+              <div class="wrapper" v-if="post.variations[2]">prezzo 30,00€ - {{post.variations[2]}}</div>
+              <!-- <div class="test">{{post.variations[0]}}</div> -->
+              <!-- <div class="wrapper" v-if="post.variations[0]===1255">
+                <div
+                  class="test"
+                  v-for="vario in postVar"
+                  :key="vario.id"
+                >{{vario.price[0]}} for {{post.variations[0]}}</div>
+              </div>-->
               <!-- <div class="test">{{post.variations[1]}}</div>
               <div class="test" v-for="vario in postVar" :key="vario.id">{{vario.price}}</div>
               <div class="test">{{post.variations[2]}}</div>
@@ -78,7 +82,10 @@ export default {
       currentCategory: "231",
       categoryList: null,
       posts: null,
+      postIDs: [],
       postVar: [],
+      postVar2: [],
+      postVar3: [],
       imgs: null,
       btn_tutte: true,
       title_filter: "Filtra Tisane",
@@ -87,12 +94,20 @@ export default {
   },
   mounted() {
     axios
-      .get(
-        "https://infusodivino.it/shop/wp-json/wc/v3/products/categories?parent=231&per_page=100&hide_empty=true&consumer_key=ck_eefade272d2c275e56a58d4db5b8cb9264016df1&consumer_secret=cs_e6f1a010f7683b59bf84abc916abb42f65929ecf"
+      .all([
+        axios.get(
+          "https://infusodivino.it/shop/wp-json/wc/v3/products/1254/variations?consumer_key=ck_eefade272d2c275e56a58d4db5b8cb9264016df1&consumer_secret=cs_e6f1a010f7683b59bf84abc916abb42f65929ecf&per_page=50"
+        ),
+        axios.get(
+          "https://infusodivino.it/shop/wp-json/wc/v3/products/categories?parent=231&per_page=50&hide_empty=true&consumer_key=ck_eefade272d2c275e56a58d4db5b8cb9264016df1&consumer_secret=cs_e6f1a010f7683b59bf84abc916abb42f65929ecf"
+        )
+      ])
+      .then(
+        axios.spread((ElencoVariazioni, ElencoCategorieTisane) => {
+          this.postVar = ElencoVariazioni.data;
+          this.categoryList = ElencoCategorieTisane.data;
+        })
       )
-      .then(response => {
-        this.categoryList = response.data;
-      })
       .catch(error => console.log(error));
   },
   created: function created() {
@@ -104,10 +119,15 @@ export default {
   methods: {
     fetchData: function fetchData() {
       var apiWCUrl =
-        "https://infusodivino.it/shop/wp-json/wc/v3/products?consumer_key=ck_eefade272d2c275e56a58d4db5b8cb9264016df1&consumer_secret=cs_e6f1a010f7683b59bf84abc916abb42f65929ecf&per_page=100&category=";
+        "https://infusodivino.it/shop/wp-json/wc/v3/products?consumer_key=ck_eefade272d2c275e56a58d4db5b8cb9264016df1&consumer_secret=cs_e6f1a010f7683b59bf84abc916abb42f65929ecf&per_page=50&category=";
 
       var xhr = new XMLHttpRequest();
       var self = this;
+
+      var xxhr = new XMLHttpRequest();
+      var apivarurl = "https://infusodivino.it/shop/wp-json/wc/v3/products/";
+      var apivarurl2 =
+        "/variations?consumer_key=ck_eefade272d2c275e56a58d4db5b8cb9264016df1&consumer_secret=cs_e6f1a010f7683b59bf84abc916abb42f65929ecf&per_page=50";
 
       xhr.open("GET", apiWCUrl + self.currentCategory);
       self.overlay = true; //attivo il loading overlay
@@ -115,32 +135,33 @@ export default {
         self.posts = JSON.parse(xhr.responseText);
         //cilo la risposta ed estrapolo tutti i dati
         for (var postsid in self.posts) {
-          //passo ID di self.posts alla funzione fetchVariant
-          self.fetchVariant(self.posts[postsid].id);
+          //console.log(self.posts[postsid].id);
+          //popolo l'array postIDs dichiarato in precedenza in data con solo gli ID di self.posts
+          self.postIDs.push(self.posts[postsid].id);
         }
         self.overlay = false; // spengo il loading overlay
+
+        for (var item in self.postIDs) {
+          xxhr.open("GET", apivarurl + self.postIDs[item] + apivarurl2);
+          var test_V = apivarurl + self.postIDs[item] + apivarurl2;
+          //console.log(apivarurl + self.postIDs[item] + apivarurl2);
+          console.log(test_V.id);
+          //console.log(self.postIDs[item]);
+          xxhr.onload = function() {
+            self.postVar2 = JSON.parse(xxhr.responseText);
+            // self.postVar3.push(self.postVar2[item]);
+            // console.log(self.postVar3);
+          };
+          xxhr.send();
+        }
       };
       xhr.send();
-    },
-    fetchVariant: function fetchVariant(id_var) {
-      var self = this;
-      self.postVar = [];
-      var vxhr = new XMLHttpRequest();
-      var apiPre_Vurl = "https://infusodivino.it/shop/wp-json/wc/v3/products/";
-      var apiPost_Vurl =
-        "/variations?consumer_key=ck_eefade272d2c275e56a58d4db5b8cb9264016df1&consumer_secret=cs_e6f1a010f7683b59bf84abc916abb42f65929ecf&per_page=100";
-
-      vxhr.open("GET", apiPre_Vurl + id_var + apiPost_Vurl);
-      vxhr.onload = function() {
-        self.postVar.push(JSON.parse(vxhr.responseText));
-      };
-      vxhr.send();
     }
   },
   computed: {
-    // VariationsList() {
-    //   return this.postVar.length;
-    // }
+    VariationsList() {
+      return this.postVar.length;
+    }
   }
 };
 </script>
